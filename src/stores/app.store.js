@@ -8,7 +8,7 @@ const useStore = create(
             projects: [],
             addPerson: (person) =>
                 set((state) => {
-                    person.id = `person_${Date.now()}`;
+                    person.id = `person-${Date.now()}`;
                     return {
                         people: [...state.people, person],
                     };
@@ -28,6 +28,29 @@ const useStore = create(
             deletePerson: (person) =>
                 set((state) => ({
                     people: state.people.filter((p) => p.id !== person.id),
+                })),
+            addProject: (project) =>
+                set((state) => {
+                    project.id = `project-${Date.now()}`;
+                    return {
+                        projects: [...state.projects, project],
+                    };
+                }),
+            editProject: (project) =>
+                set((state) => {
+                    const newProjects = state.projects.map((p) => {
+                        if (p.id === project.id) {
+                            p = project;
+                        }
+                        return p;
+                    });
+                    return {
+                        projects: newProjects,
+                    };
+                }),
+            deleteProject: (project) =>
+                set((state) => ({
+                    projects: state.projects.filter((p) => p.id !== project.id),
                 })),
         }),
         {

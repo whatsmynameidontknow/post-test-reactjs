@@ -23,6 +23,11 @@ export default function PersonStats({ people }) {
 
     const options = {
         plugins: {
+            title: {
+                display: true,
+                text: 'Employees by Division',
+                fontSize: 16,
+            },
             tooltip: {
                 callbacks: {
                     label: (context) => {

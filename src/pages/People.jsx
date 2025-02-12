@@ -12,7 +12,7 @@ const EMPTY_PERSON = {
     division: undefined,
 };
 
-export default function PersonPage() {
+export default function People() {
     const { people, addPerson, editPerson, deletePerson } = useStore();
     const [selectedPerson, setSelectedPerson] = useState(EMPTY_PERSON);
     const [personToDelete, setPersonToDelete] = useState();
@@ -122,7 +122,7 @@ export default function PersonPage() {
                 </Dialog>
 
                 <Card className="shadow-2">
-                    <h1 className="text-center">Division Distribution</h1>
+                    <h1 className="text-center">Statistics</h1>
                     <PersonStats people={people} />
                 </Card>
             </div>
