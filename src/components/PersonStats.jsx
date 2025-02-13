@@ -1,6 +1,9 @@
 import { Chart } from 'primereact/chart';
 
 export default function PersonStats({ people, chartTitle }) {
+    if (!people || (people && people.length === 0)) {
+        return <h3 class="text-center">No Statistics Available</h3>;
+    }
     const divisionFreq = new Map();
 
     people.forEach((person) => {

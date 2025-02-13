@@ -2,7 +2,12 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 
-export default function PersonList({ people, onEditClick, onDeleteClick }) {
+export default function PersonList({
+    people,
+    onEditClick,
+    onDeleteClick,
+    onInfoClick,
+}) {
     return (
         <div className="card">
             <DataTable
@@ -13,7 +18,11 @@ export default function PersonList({ people, onEditClick, onDeleteClick }) {
                 rows={5}
                 rowsPerPageOptions={[5, 10, 25]}
                 tableStyle={{ minWidth: '50rem' }}
-                emptyMessage="No people found."
+                emptyMessage={
+                    <div className="flex justify-content-center">
+                        <span>No people found.</span>
+                    </div>
+                }
                 className="shadow-2"
                 dataKey="id"
             >
@@ -32,6 +41,13 @@ export default function PersonList({ people, onEditClick, onDeleteClick }) {
                                     icon="pi pi-pencil"
                                     severity="success"
                                     onClick={() => onEditClick(person)}
+                                />
+                            )}
+                            {onInfoClick && (
+                                <Button
+                                    icon="pi pi-info-circle"
+                                    severity="primary"
+                                    onClick={() => onInfoClick(person)}
                                 />
                             )}
                             {onDeleteClick && (

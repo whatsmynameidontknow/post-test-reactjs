@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { Badge } from 'primereact/badge';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
@@ -6,68 +7,39 @@ import { Divider } from 'primereact/divider';
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
 import { useEffect, useRef, useState } from 'react';
-import { MAX_CONCURRENT } from '../constants/constants';
 import { EMPTY_PERSON } from '../pages/People';
 import useStore from '../stores/app.store';
 import PersonList from './PersonList';
 import PersonStats from './PersonStats';
 
 export default function ProjectInfoDialog({ project, visible, onCancel }) {
-    const { people, addPersonToProject, removePersonFromProject, projects } =
-        useStore();
+    const { people, addPersonToProject, removePersonFromProject } = useStore();
     const [selectedPerson, setSelectedPerson] = useState();
     const toastRef = useRef(null);
     useEffect(() => {
         setSelectedPerson(EMPTY_PERSON);
     }, [project]);
 
-    const concurrentProjectsDoesNotExceedLimit = (personId) => {
-        let allProjects = projects.filter((p) =>
-            p?.members?.some((m) => m.id === personId)
-        );
-        if (!allProjects.some((p) => p.id === project.id)) {
-            allProjects.push(project);
-        }
-
-        if (allProjects.length <= MAX_CONCURRENT) {
-            return true;
-        }
-
-        const events = [];
-        allProjects.forEach((p) => {
-            events.push({ date: new Date(p.start_date), type: 1 });
-            events.push({ date: new Date(p.end_date), type: -1 });
-        });
-
-        events.sort((a, b) => {
-            const diff = a.date - b.date;
-            if (diff === 0) {
-                return a.type - b.type;
-            }
-            return diff;
-        });
-
-        let concurrent = 0;
-        for (const event of events) {
-            concurrent += event.type;
-            if (concurrent > MAX_CONCURRENT) {
-                return false;
-            }
-        }
-
-        return true;
-    };
+    const projectMembers = people.filter((person) =>
+        project?.member_ids?.includes(person.id)
+    );
 
     const projectDetails = [
         {
             label: 'Start Date',
             value: dayjs(project?.start_date).format('DD MMMM YYYY'),
+            icon: 'pi pi-calendar',
         },
         {
             label: 'End Date',
             value: dayjs(project?.end_date).format('DD MMMM YYYY'),
+            icon: 'pi pi-calendar-times',
         },
-        { label: 'Total Members', value: project?.members?.length || 0 },
+        {
+            label: 'Total Members',
+            value: project?.member_ids?.length || 0,
+            icon: 'pi pi-users',
+        },
     ];
 
     return (
@@ -75,15 +47,18 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
             header={`${project?.name} Details`}
             visible={visible}
             onHide={onCancel}
-            className="w-full lg:w-10 md:w-6"
+            className="w-full lg:w-8 md:w-6"
             breakpoints={{ '960px': '75vw', '641px': '100vw' }}
         >
             <div className="flex flex-column gap-4">
                 <Card className="shadow-1">
                     <div className="grid">
-                        {projectDetails.map((detail, index) => (
+                        {projectDetails.map((detail) => (
                             <div key={detail.label} className="col-12 md:col-4">
-                                <div className="flex flex-column align-items-center p-3 border-round">
+                                <div className="flex flex-column align-items-center p-3 border-round surface-50">
+                                    <i
+                                        className={`${detail.icon} text-xl text-primary mb-2`}
+                                    ></i>
                                     <span className="text-500 text-sm">
                                         {detail.label}
                                     </span>
@@ -97,25 +72,15 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                 </Card>
 
                 <Card className="shadow-1">
-                    <h3 className="text-xl font-semibold m-0 mb-3">
-                        Add Team Member
-                    </h3>
+                    <div className="flex align-items-center justify-content-between mb-3">
+                        <h3 className="text-xl font-semibold m-0">
+                            Add Team Member
+                        </h3>
+                    </div>
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
-                            if (
-                                !concurrentProjectsDoesNotExceedLimit(
-                                    selectedPerson.id
-                                )
-                            ) {
-                                toastRef.current.show({
-                                    severity: 'error',
-                                    summary: 'Failed!',
-                                    detail: `${selectedPerson?.full_name} telah tergabung di terlalu banyak project untuk periode ini!`,
-                                });
-                                return;
-                            }
-                            addPersonToProject(project?.id, selectedPerson);
+                            addPersonToProject(project?.id, selectedPerson.id);
                             setSelectedPerson(EMPTY_PERSON);
                         }}
                         className="flex gap-3"
@@ -125,8 +90,8 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                             value={selectedPerson}
                             options={people}
                             optionDisabled={(person) =>
-                                project?.members?.some(
-                                    (p) => p.id === person.id
+                                project?.member_ids?.some(
+                                    (id) => id === person.id
                                 )
                             }
                             optionLabel="full_name"
@@ -144,12 +109,21 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                 </Card>
 
                 <Divider align="center">
-                    <span className="text-500">Team Members</span>
+                    <div className="flex align-items-center gap-2">
+                        <i className="pi pi-users text-primary"></i>
+                        <span className="text-500 font-medium">
+                            Team Members
+                        </span>
+                        <Badge
+                            value={projectMembers.length || 0}
+                            severity="info"
+                        />
+                    </div>
                 </Divider>
 
                 <Card className="shadow-1">
                     <PersonList
-                        people={project?.members}
+                        people={projectMembers}
                         onDeleteClick={(person) => {
                             removePersonFromProject(project?.id, person.id);
                         }}
@@ -157,11 +131,15 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                 </Card>
 
                 <Divider align="center">
-                    <span className="text-500">Statistics</span>
+                    <div className="flex align-items-center gap-2">
+                        <i className="pi pi-chart-bar text-primary"></i>
+                        <span className="text-500 font-medium">Statistics</span>
+                    </div>
                 </Divider>
+
                 <Card className="shadow-1">
                     <PersonStats
-                        people={project?.members}
+                        people={projectMembers}
                         chartTitle={`${project?.name} Members by Division`}
                     />
                 </Card>

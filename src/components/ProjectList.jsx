@@ -19,7 +19,11 @@ export default function ProjectList({
                 rows={5}
                 rowsPerPageOptions={[5, 10, 25]}
                 tableStyle={{ minWidth: '50rem' }}
-                emptyMessage="No projects found."
+                emptyMessage={
+                    <div className="flex justify-content-center">
+                        <span>No projects found.</span>
+                    </div>
+                }
                 className="shadow-2"
                 dataKey="id"
             >
@@ -40,28 +44,30 @@ export default function ProjectList({
                         dayjs(project.end_date).format('DD MMMM YYYY')
                     }
                 ></Column>
-                <Column
-                    header="Action"
-                    body={(project) => (
-                        <div class="flex gap-2 justify-content-center">
-                            <Button
-                                icon="pi pi-pencil"
-                                severity="success"
-                                onClick={() => onEditClick(project)}
-                            />
-                            <Button
-                                icon="pi pi-info-circle"
-                                severity="primary"
-                                onClick={() => onInfoClick(project)}
-                            />
-                            <Button
-                                icon="pi pi-trash"
-                                severity="danger"
-                                onClick={() => onDeleteClick(project)}
-                            />
-                        </div>
-                    )}
-                ></Column>
+                {(onEditClick || onInfoClick || onDeleteClick) && (
+                    <Column
+                        header="Action"
+                        body={(project) => (
+                            <div className="flex gap-2 justify-content-center">
+                                <Button
+                                    icon="pi pi-pencil"
+                                    severity="success"
+                                    onClick={() => onEditClick(project)}
+                                />
+                                <Button
+                                    icon="pi pi-info-circle"
+                                    severity="primary"
+                                    onClick={() => onInfoClick(project)}
+                                />
+                                <Button
+                                    icon="pi pi-trash"
+                                    severity="danger"
+                                    onClick={() => onDeleteClick(project)}
+                                />
+                            </div>
+                        )}
+                    ></Column>
+                )}
             </DataTable>
         </div>
     );

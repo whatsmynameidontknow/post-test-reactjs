@@ -2,13 +2,23 @@ import dayjs from 'dayjs';
 import { Chart } from 'primereact/chart';
 
 export default function ProjectStats({ projects }) {
+    if (!projects || (projects && projects.length === 0)) {
+        return <h3 className="text-center">No Statistics Available</h3>;
+    }
     const yearlyCount = new Map();
-    projects.forEach((project) => {
-        const startYear = dayjs(project.start_date).year();
-        const endYear = dayjs(project.end_date).year();
-        yearlyCount.set(startYear, (yearlyCount.get(startYear) ?? 0) + 1);
-        if (startYear !== endYear)
-            yearlyCount.set(endYear, (yearlyCount.get(endYear) ?? 0) + 1);
+    const projectYears = projects.map((project) => ({
+        start_year: dayjs(project.start_date).year(),
+        end_year: dayjs(project.end_date).year(),
+    }));
+
+    projectYears.forEach((project) => {
+        while (project.start_year <= project.end_year) {
+            yearlyCount.set(
+                project.start_year,
+                (yearlyCount.get(project.start_year) || 0) + 1
+            );
+            project.start_year++;
+        }
     });
 
     const years = Array.from(yearlyCount.keys()).sort();

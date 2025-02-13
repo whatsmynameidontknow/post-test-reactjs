@@ -15,7 +15,14 @@ export const EMPTY_PROJECT = {
 };
 
 export default function Projects() {
-    const { projects, addProject, editProject, deleteProject } = useStore();
+    const {
+        projects,
+        addProject,
+        editProject,
+        deleteProject,
+        people,
+        removePersonFromProject,
+    } = useStore();
     const [selectedProject, setSelectedProject] = useState(EMPTY_PROJECT);
     const [selectedProjectInfo, setSelectedProjectInfo] = useState(null);
     const [projectToDelete, setProjectToDelete] = useState(null);
@@ -67,6 +74,9 @@ export default function Projects() {
         if (projectToDelete.id === selectedProject.id) {
             setSelectedProject(EMPTY_PROJECT);
         }
+        people.forEach((person) => {
+            removePersonFromProject(projectToDelete.id, person.id);
+        });
         setDeleteDialogVisible(false);
     };
 

@@ -12,5 +12,3 @@ export const divisions = [
         key: 'SA',
     },
 ];
-
-export const MAX_CONCURRENT = 2;

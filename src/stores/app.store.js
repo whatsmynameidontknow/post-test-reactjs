@@ -72,35 +72,59 @@ const useStore = create(
                 set((state) => ({
                     projects: state.projects.filter((p) => p.id !== project.id),
                 })),
-            addPersonToProject: (projectId, person) =>
+            addPersonToProject: (projectId, personId) =>
                 set((state) => {
-                    let projects = [...state.projects];
-                    projects = projects.map((project) => {
+                    const projects = state.projects.map((project) => {
                         if (project.id === projectId) {
-                            project.members = project.members ?? [];
-                            if (project.members.some((p) => p.id === person.id))
+                            project.member_ids = project.member_ids ?? [];
+                            if (
+                                project.member_ids.some(
+                                    (p) => p.id === personId
+                                )
+                            )
                                 return project;
-                            project.members.push(person);
+                            project.member_ids.push(personId);
                         }
                         return project;
                     });
+
+                    const people = state.people.map((person) => {
+                        if (person.id === personId) {
+                            person.project_ids = person.project_ids ?? [];
+                            if (person.project_ids.includes(projectId))
+                                return person;
+                            person.project_ids.push(projectId);
+                        }
+                        return person;
+                    });
+
                     return {
                         projects: projects,
+                        people: people,
                     };
                 }),
             removePersonFromProject: (projectId, personId) =>
                 set((state) => {
-                    let projects = [...state.projects];
-                    projects = projects.map((project) => {
+                    const projects = state.projects.map((project) => {
                         if (project.id === projectId) {
-                            project.members = project.members.filter(
-                                (person) => person.id !== personId
+                            project.member_ids = project?.member_ids?.filter(
+                                (id) => id !== personId
                             );
                         }
                         return project;
                     });
+
+                    const people = state.people.map((person) => {
+                        if (person.id === personId) {
+                            person.project_ids = person?.project_ids?.filter(
+                                (id) => id !== projectId
+                            );
+                        }
+                        return person;
+                    });
                     return {
                         projects: projects,
+                        people: people,
                     };
                 }),
         }),

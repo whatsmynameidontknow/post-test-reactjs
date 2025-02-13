@@ -2,6 +2,7 @@ import { Card } from 'primereact/card';
 import { useRef, useState } from 'react';
 import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
 import PersonForm from '../components/PersonForm';
+import PersonInfoDialog from '../components/PersonInfoDialog';
 import PersonList from '../components/PersonList';
 import PersonStats from '../components/PersonStats';
 import useStore from '../stores/app.store';
@@ -12,10 +13,19 @@ export const EMPTY_PERSON = {
 };
 
 export default function People() {
-    const { people, addPerson, editPerson, deletePerson } = useStore();
+    const {
+        people,
+        addPerson,
+        editPerson,
+        deletePerson,
+        removePersonFromProject,
+        projects,
+    } = useStore();
     const [selectedPerson, setSelectedPerson] = useState(EMPTY_PERSON);
     const [personToDelete, setPersonToDelete] = useState();
     const [dialogVisible, setDialogVisible] = useState(false);
+    const [infoDialogVisible, setInfoDialogVisible] = useState(false);
+    const [selectedPersonInfo, setSelectedPersonInfo] = useState();
 
     const onSubmit = (person) => {
         console.log('SUBMIT');
@@ -45,11 +55,19 @@ export default function People() {
         setDialogVisible(true);
     };
 
+    const onInfoClick = (person) => {
+        setSelectedPersonInfo(person);
+        setInfoDialogVisible(true);
+    };
+
     const doDelete = () => {
         deletePerson(personToDelete);
         if (personToDelete.id === selectedPerson.id) {
             setSelectedPerson(EMPTY_PERSON);
         }
+        projects.forEach((project) =>
+            removePersonFromProject(project.id, personToDelete.id)
+        );
         setDialogVisible(false);
     };
 
@@ -78,6 +96,7 @@ export default function People() {
                                     people={people}
                                     onEditClick={onEditClick}
                                     onDeleteClick={onDeleteClick}
+                                    onInfoClick={onInfoClick}
                                 />
                             </div>
                         </div>
@@ -95,6 +114,12 @@ export default function People() {
                     <h1 className="text-center">Statistics</h1>
                     <PersonStats people={people} />
                 </Card>
+
+                <PersonInfoDialog
+                    visible={infoDialogVisible}
+                    person={selectedPersonInfo}
+                    onClose={() => setInfoDialogVisible(false)}
+                />
             </div>
         </div>
     );
