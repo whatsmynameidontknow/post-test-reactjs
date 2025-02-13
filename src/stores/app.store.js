@@ -6,7 +6,6 @@ const DATE_KEYS = new Set(['start_date', 'end_date']);
 const storage = createJSONStorage(() => localStorage, {
     reviver: (key, value) => {
         if (value && value.type === 'date') {
-            console.log(value.value);
             return new Date(value.value);
         }
         return value;
@@ -73,6 +72,37 @@ const useStore = create(
                 set((state) => ({
                     projects: state.projects.filter((p) => p.id !== project.id),
                 })),
+            addPersonToProject: (projectId, person) =>
+                set((state) => {
+                    let projects = [...state.projects];
+                    projects = projects.map((project) => {
+                        if (project.id === projectId) {
+                            project.members = project.members ?? [];
+                            if (project.members.some((p) => p.id === person.id))
+                                return project;
+                            project.members.push(person);
+                        }
+                        return project;
+                    });
+                    return {
+                        projects: projects,
+                    };
+                }),
+            removePersonFromProject: (projectId, personId) =>
+                set((state) => {
+                    let projects = [...state.projects];
+                    projects = projects.map((project) => {
+                        if (project.id === projectId) {
+                            project.members = project.members.filter(
+                                (person) => person.id !== personId
+                            );
+                        }
+                        return project;
+                    });
+                    return {
+                        projects: projects,
+                    };
+                }),
         }),
         {
             name: 'post-test',

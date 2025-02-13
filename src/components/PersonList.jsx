@@ -26,17 +26,21 @@ export default function PersonList({ people, onEditClick, onDeleteClick }) {
                 <Column
                     header="Action"
                     body={(person) => (
-                        <div>
-                            <Button
-                                icon="pi pi-pencil"
-                                severity="success"
-                                onClick={() => onEditClick(person)}
-                            />
-                            <Button
-                                icon="pi pi-trash"
-                                severity="danger"
-                                onClick={() => onDeleteClick(person)}
-                            />
+                        <div className="flex gap-2 justify-content-center">
+                            {onEditClick && (
+                                <Button
+                                    icon="pi pi-pencil"
+                                    severity="success"
+                                    onClick={() => onEditClick(person)}
+                                />
+                            )}
+                            {onDeleteClick && (
+                                <Button
+                                    icon="pi pi-trash"
+                                    severity="danger"
+                                    onClick={() => onDeleteClick(person)}
+                                />
+                            )}
                         </div>
                     )}
                 ></Column>

@@ -1,6 +1,6 @@
 import { Chart } from 'primereact/chart';
 
-export default function PersonStats({ people }) {
+export default function PersonStats({ people, chartTitle }) {
     const divisionFreq = new Map();
 
     people.forEach((person) => {
@@ -25,7 +25,7 @@ export default function PersonStats({ people }) {
         plugins: {
             title: {
                 display: true,
-                text: 'Employees by Division',
+                text: chartTitle,
                 fontSize: 16,
             },
             tooltip: {

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { divisions } from '../constants/constants';
 import { EMPTY_PERSON } from '../pages/People';
 
-export default function PersonForm({ personData, onSubmit, onCancel }) {
+export default function PersonForm({ personData, onSubmit, onCancel, ref }) {
     const [formData, setFormData] = useState(personData);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export default function PersonForm({ personData, onSubmit, onCancel }) {
     };
 
     return (
-        <div className="flex justify-content-center">
+        <div className="flex justify-content-center" ref={ref}>
             <form
                 className="flex flex-column gap-4 p-4 surface-card border-round shadow-2 w-full md:w-30rem"
                 onSubmit={(e) => {

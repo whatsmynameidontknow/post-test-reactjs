@@ -3,7 +3,12 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 
-export default function ProjectList({ projects, onEditClick, onDeleteClick }) {
+export default function ProjectList({
+    projects,
+    onEditClick,
+    onDeleteClick,
+    onInfoClick,
+}) {
     return (
         <div className="card">
             <DataTable
@@ -38,11 +43,16 @@ export default function ProjectList({ projects, onEditClick, onDeleteClick }) {
                 <Column
                     header="Action"
                     body={(project) => (
-                        <div>
+                        <div class="flex gap-2 justify-content-center">
                             <Button
                                 icon="pi pi-pencil"
                                 severity="success"
                                 onClick={() => onEditClick(project)}
+                            />
+                            <Button
+                                icon="pi pi-info-circle"
+                                severity="primary"
+                                onClick={() => onInfoClick(project)}
                             />
                             <Button
                                 icon="pi pi-trash"

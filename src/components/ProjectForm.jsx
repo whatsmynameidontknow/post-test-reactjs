@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
 import { EMPTY_PROJECT } from '../pages/Projects';
 
-export default function ProjectForm({ projectData, onSubmit, onCancel }) {
+export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
     const [formData, setFormData] = useState(projectData);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function ProjectForm({ projectData, onSubmit, onCancel }) {
     };
 
     return (
-        <div className="flex justify-content-center">
+        <div className="flex justify-content-center" ref={ref}>
             <form
                 className="flex flex-column gap-4 p-6 surface-card border-round-xl shadow-4 w-full md:w-30rem"
                 onSubmit={(e) => {
