@@ -2,6 +2,18 @@ import dayjs from 'dayjs';
 import { Chart } from 'primereact/chart';
 
 export default function ProjectStats({ projects }) {
+    const sortedProjects = projects.toSorted((a, b) => {
+        const aStartDateUnix = a.start_date.getTime();
+        const bStartDateUnix = b.start_date.getTime();
+        const aEndDateUnix = a.end_date.getTime();
+        const bEndDateUnix = b.end_date.getTime();
+        return aStartDateUnix === bStartDateUnix
+            ? bEndDateUnix - aEndDateUnix
+            : bStartDateUnix - aStartDateUnix;
+    });
+
+    console.log('BEFORE SORTED:', projects);
+    console.log('AFTER SORTED:', sortedProjects);
     const yearlyCount = new Map();
     projects.forEach((project) => {
         const startYear = dayjs(project.start_date).year();
@@ -50,7 +62,11 @@ export default function ProjectStats({ projects }) {
 
     return (
         <div className="card">
-            <Chart type="bar" data={chartData} options={options} />
+            <Chart
+                type={yearlyCount.size > 1 ? 'line' : 'bar'}
+                data={chartData}
+                options={options}
+            />
         </div>
     );
 }

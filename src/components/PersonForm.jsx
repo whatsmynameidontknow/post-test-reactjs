@@ -4,6 +4,7 @@ import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
 import { divisions } from '../constants/constants';
+import { EMPTY_PERSON } from '../pages/People';
 
 export default function PersonForm({ personData, onSubmit, onCancel }) {
     const [formData, setFormData] = useState(personData);
@@ -26,6 +27,7 @@ export default function PersonForm({ personData, onSubmit, onCancel }) {
                 onSubmit={(e) => {
                     e.preventDefault();
                     onSubmit(formData);
+                    setFormData(EMPTY_PERSON);
                 }}
             >
                 <h2 className="text-center text-2xl font-semibold m-0 mb-4">
@@ -61,14 +63,15 @@ export default function PersonForm({ personData, onSubmit, onCancel }) {
 
                 <div className="flex gap-2">
                     <Button
-                        label={personData.id ? 'Save' : 'Submit'}
+                        label={formData.id ? 'Save' : 'Submit'}
                         type="submit"
                         className="flex-1"
                     />
-                    {personData.id && (
+                    {formData.id && (
                         <Button
                             label="Cancel"
                             onClick={() => onCancel()}
+                            type="button"
                             severity="secondary"
                             className="flex-1"
                         />

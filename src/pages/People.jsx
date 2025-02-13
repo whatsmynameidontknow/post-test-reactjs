@@ -7,7 +7,7 @@ import PersonList from '../components/PersonList';
 import PersonStats from '../components/PersonStats';
 import useStore from '../stores/app.store';
 
-const EMPTY_PERSON = {
+export const EMPTY_PERSON = {
     full_name: '',
     division: undefined,
 };
@@ -19,12 +19,12 @@ export default function People() {
     const [dialogVisible, setDialogVisible] = useState(false);
 
     const onSubmit = (person) => {
+        console.log('SUBMIT');
         if (person.id) {
             editPerson(person);
             return;
         }
         addPerson(person);
-        setSelectedPerson(EMPTY_PERSON);
     };
 
     const onCancel = () => {

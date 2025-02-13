@@ -1,5 +1,26 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
+
+const DATE_KEYS = new Set(['start_date', 'end_date']);
+
+const storage = createJSONStorage(() => localStorage, {
+    reviver: (key, value) => {
+        if (value && value.type === 'date') {
+            console.log(value.value);
+            return new Date(value.value);
+        }
+        return value;
+    },
+    replacer: (key, value) => {
+        if (DATE_KEYS.has(key)) {
+            return {
+                type: 'date',
+                value: value,
+            };
+        }
+        return value;
+    },
+});
 
 const useStore = create(
     persist(
@@ -55,6 +76,7 @@ const useStore = create(
         }),
         {
             name: 'post-test',
+            storage: storage,
         }
     )
 );

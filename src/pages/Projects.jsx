@@ -6,8 +6,9 @@ import ProjectForm from '../components/ProjectForm';
 import ProjectList from '../components/ProjectList';
 import ProjectStats from '../components/ProjectStats';
 import useStore from '../stores/app.store';
+import { endDateNotBeforeStartDate } from '../utils/utils';
 
-const EMPTY_PROJECT = {
+export const EMPTY_PROJECT = {
     name: '',
     start_date: null,
     end_date: null,
@@ -20,6 +21,9 @@ export default function Projects() {
     const [dialogVisible, setDialogVisible] = useState(false);
 
     const onSubmit = (project) => {
+        if (!endDateNotBeforeStartDate(project)) {
+            throw Error("end_date can't be before start_date");
+        }
         if (project.id) {
             editProject(project);
             return;

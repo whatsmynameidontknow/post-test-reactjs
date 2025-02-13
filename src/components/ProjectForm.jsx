@@ -3,6 +3,7 @@ import { Calendar } from 'primereact/calendar';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
+import { EMPTY_PROJECT } from '../pages/Projects';
 
 export default function ProjectForm({ projectData, onSubmit, onCancel }) {
     const [formData, setFormData] = useState(projectData);
@@ -25,6 +26,7 @@ export default function ProjectForm({ projectData, onSubmit, onCancel }) {
                 onSubmit={(e) => {
                     e.preventDefault();
                     onSubmit(formData);
+                    setFormData(EMPTY_PROJECT);
                 }}
             >
                 <h2 className="text-center text-2xl font-bold m-0 mb-4 text-900">
@@ -50,7 +52,6 @@ export default function ProjectForm({ projectData, onSubmit, onCancel }) {
                         id="start_date"
                         value={formData.start_date}
                         onChange={onInputChange}
-                        maxDate={new Date()}
                         showIcon
                         showButtonBar
                         className="w-full"
@@ -70,10 +71,11 @@ export default function ProjectForm({ projectData, onSubmit, onCancel }) {
                         id="end_date"
                         value={formData.end_date}
                         onChange={onInputChange}
-                        maxDate={new Date()}
+                        minDate={formData.start_date}
                         showIcon
                         showButtonBar
                         className="w-full"
+                        disabled={!formData.start_date}
                         pt={{
                             input: { className: 'p-inputtext-lg w-full' },
                             dropdownButton: { className: 'bg-primary' },
@@ -87,15 +89,16 @@ export default function ProjectForm({ projectData, onSubmit, onCancel }) {
 
                 <div className="flex gap-3 mt-4">
                     <Button
-                        label={projectData.id ? 'Save Changes' : 'Submit'}
+                        label={formData.id ? 'Save' : 'Submit'}
                         type="submit"
                         className="flex-1 p-button-lg p-button-raised"
                     />
-                    {projectData.id && (
+                    {formData.id && (
                         <Button
                             label="Cancel"
                             onClick={() => onCancel()}
                             severity="secondary"
+                            type="button"
                             className="flex-1 p-button-lg p-button-raised"
                         />
                     )}
