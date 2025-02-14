@@ -15,14 +15,22 @@ import PersonList from './PersonList';
 import PersonStats from './PersonStats';
 
 export default function ProjectInfoDialog({ project, visible, onCancel }) {
-    const { people, addPersonToProject, removePersonFromProject } = useStore();
+    const { people, addPersonToProject, removePersonFromProject, divisions } =
+        useStore();
     const [selectedPerson, setSelectedPerson] = useState();
     const toastRef = useRef(null);
     useEffect(() => {
         setSelectedPerson(EMPTY_PERSON);
     }, [project]);
 
-    const projectMembers = people.filter((person) =>
+    const peopleWithDivision = people.map((person) => ({
+        ...person,
+        division: divisions.find(
+            (division) => division.id === person.division_id
+        ),
+    }));
+
+    const projectMembers = peopleWithDivision.filter((person) =>
         project?.member_ids?.includes(person.id)
     );
 
@@ -132,7 +140,7 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                                         <span>{`${person.full_name} (${person.division.name})`}</span>
                                     );
                                 }}
-                                options={people}
+                                options={peopleWithDivision}
                                 optionDisabled={(person) =>
                                     project?.member_ids?.some(
                                         (id) => id === person.id

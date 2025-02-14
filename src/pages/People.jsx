@@ -10,6 +10,7 @@ import useStore from '../stores/app.store';
 
 export default function People() {
     const {
+        divisions,
         people,
         addPerson,
         editPerson,
@@ -20,8 +21,13 @@ export default function People() {
     const [selectedPerson, setSelectedPerson] = useState(EMPTY_PERSON);
     const [infoDialogVisible, setInfoDialogVisible] = useState(false);
     const [selectedPersonInfo, setSelectedPersonInfo] = useState();
-
+    const peopleWithDivisions = people.map((person) => ({
+        ...person,
+        division: divisions.find((d) => d.id === person.division_id),
+    }));
     const onSubmit = (person) => {
+        person.division_id = person.division.id;
+        delete person.division;
         if (person.id) {
             editPerson(person);
             setSelectedPerson(EMPTY_PERSON);
@@ -100,7 +106,7 @@ export default function People() {
                             </div>
                             <div className="surface-card p-4 border-round">
                                 <PersonList
-                                    people={people}
+                                    people={peopleWithDivisions}
                                     onEditClick={onEditClick}
                                     onDeleteClick={onDeleteClick}
                                     onInfoClick={onInfoClick}
@@ -114,7 +120,7 @@ export default function People() {
                     <h1 className="text-4xl font-bold text-900 mb-2 text-center">
                         Statistics
                     </h1>
-                    <PersonStats people={people} />
+                    <PersonStats people={peopleWithDivisions} />
                 </Card>
 
                 <PersonInfoDialog

@@ -8,7 +8,7 @@ import PersonList from './PersonList';
 export default function DivisionInfoDialog({ division, visible, onClose }) {
     const { people } = useStore();
     const currentDivisionMember = people.filter(
-        (person) => person.division.id === division?.id
+        (person) => person.division_id === division?.id
     );
 
     const divisionDetails = [

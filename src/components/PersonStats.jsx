@@ -8,8 +8,8 @@ export default function PersonStats({ people, chartTitle }) {
 
     people.forEach((person) => {
         divisionFreq.set(
-            person.division.name,
-            (divisionFreq.get(person.division.name) || 0) + 1
+            person?.division?.name,
+            (divisionFreq.get(person?.division?.name) || 0) + 1
         );
     });
 

@@ -18,8 +18,8 @@ export default function Divisions() {
     const divisionMemberCount = new Map();
     people.forEach((person) => {
         divisionMemberCount.set(
-            person.division.id,
-            (divisionMemberCount.get(person.division.id) ?? 0) + 1
+            person.division_id,
+            (divisionMemberCount.get(person.division_id) ?? 0) + 1
         );
     });
 
@@ -68,12 +68,12 @@ export default function Divisions() {
         }).then((res) => {
             if (res.isConfirmed) {
                 const anyPersonInCurrentDivision = people.some(
-                    (person) => person.division.id === division.id
+                    (person) => person.division_id === division.id
                 );
                 if (anyPersonInCurrentDivision) {
                     Swal.fire({
                         title: division.name,
-                        text: `Cannot delete ${division.name} division - it still has active members. Please reassign or remove all members first.`,
+                        text: `Cannot delete ${division.name} - it still has active members. Please reassign or remove all members first.`,
                         icon: 'error',
                     });
                     return;
