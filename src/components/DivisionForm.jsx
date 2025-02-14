@@ -2,7 +2,9 @@ import { Button } from 'primereact/button';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import { EMPTY_DIVISION } from '../constants/constants';
+import useStore from '../stores/app.store';
 
 export default function DivisionForm({
     divisionData,
@@ -10,6 +12,8 @@ export default function DivisionForm({
     ref,
     onCancel,
 }) {
+    const { divisions } = useStore();
+
     const [formData, setFormData] = useState(divisionData);
     useEffect(() => {
         setFormData(divisionData);
@@ -26,6 +30,20 @@ export default function DivisionForm({
                 className="flex flex-column gap-4 p-4 surface-card border-round shadow-2 w-full md:w-30rem"
                 onSubmit={(e) => {
                     e.preventDefault();
+                    if (
+                        divisions.some(
+                            (d) =>
+                                d.name.toLowerCase().trim() ===
+                                formData.name.toLowerCase().trim()
+                        )
+                    ) {
+                        Swal.fire({
+                            title: 'Duplicate Division Name!',
+                            text: `Division Named ${formData.name} Already Exists!`,
+                            icon: 'error',
+                        });
+                        return;
+                    }
                     onSubmit(formData);
                     setFormData(EMPTY_DIVISION);
                 }}
