@@ -3,7 +3,9 @@ import { Calendar } from 'primereact/calendar';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import { EMPTY_PROJECT } from '../pages/Projects';
+import { endDateNotBeforeStartDate } from '../utils/utils';
 
 export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
     const [formData, setFormData] = useState(projectData);
@@ -25,6 +27,14 @@ export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
                 className="flex flex-column gap-4 p-6 surface-card border-round-xl shadow-4 w-full md:w-30rem"
                 onSubmit={(e) => {
                     e.preventDefault();
+                    if (!endDateNotBeforeStartDate(formData)) {
+                        Swal.fire({
+                            title: 'Project',
+                            text: "Project Start Date Can't be Before Start Date!",
+                            icon: 'error',
+                        });
+                        return;
+                    }
                     onSubmit(formData);
                     setFormData(EMPTY_PROJECT);
                 }}

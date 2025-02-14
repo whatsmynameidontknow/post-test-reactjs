@@ -6,7 +6,6 @@ import ProjectInfoDialog from '../components/ProjectInfoDialog';
 import ProjectList from '../components/ProjectList';
 import ProjectStats from '../components/ProjectStats';
 import useStore from '../stores/app.store';
-import { endDateNotBeforeStartDate } from '../utils/utils';
 
 export const EMPTY_PROJECT = {
     name: '',
@@ -28,14 +27,6 @@ export default function Projects() {
     const [infoDialogVisible, setInfoDialogVisible] = useState(false);
 
     const onSubmit = (project) => {
-        if (!endDateNotBeforeStartDate(project)) {
-            Swal.fire({
-                title: 'Project',
-                text: "Project Start Date Can't be Before Start Date!",
-                icon: 'error',
-            });
-            return;
-        }
         if (project.id) {
             editProject(project);
             setSelectedProject(EMPTY_PROJECT);
@@ -43,7 +34,7 @@ export default function Projects() {
             addProject(project);
         }
         Swal.fire({
-            title: 'Project',
+            title: project.name,
             text: `Project ${project.id ? 'Updated' : 'Added'} Successfully!`,
             icon: 'success',
         });
@@ -85,7 +76,7 @@ export default function Projects() {
                     removePersonFromProject(project.id, person.id);
                 });
                 Swal.fire({
-                    title: 'Project',
+                    title: project.name,
                     text: `Project ${project.name} Deleted Successfully!`,
                     icon: 'success',
                 });

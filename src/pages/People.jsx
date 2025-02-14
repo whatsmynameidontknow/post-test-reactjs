@@ -33,7 +33,7 @@ export default function People() {
             addPerson(person);
         }
         Swal.fire({
-            title: 'Person',
+            title: person.full_name,
             text: `Person ${person.id ? 'Updated' : 'Added'} Successfully!`,
             icon: 'success',
         });
@@ -71,7 +71,7 @@ export default function People() {
                     removePersonFromProject(project.id, person.id)
                 );
                 Swal.fire({
-                    title: 'Person',
+                    title: person.full_name,
                     text: `${person.full_name} Deleted Successfully!`,
                     icon: 'success',
                 });
