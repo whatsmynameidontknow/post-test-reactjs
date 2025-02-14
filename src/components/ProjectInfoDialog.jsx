@@ -130,7 +130,7 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                                 label="Add Member"
                                 icon="pi pi-user-plus"
                                 type="submit"
-                                disabled={selectedPerson}
+                                disabled={!selectedPerson.id}
                             />
                         </form>
                     </Card>
