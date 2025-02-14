@@ -66,7 +66,7 @@ export default function DivisionForm({
 
                 <div className="flex gap-2">
                     <Button
-                        label={formData.id ? 'Save' : 'Submit'}
+                        label={formData.id ? 'Save' : 'Add'}
                         type="submit"
                         className="flex-1"
                         disabled={!formData.name}

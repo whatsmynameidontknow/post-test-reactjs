@@ -101,7 +101,7 @@ export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
 
                 <div className="flex gap-3 mt-4">
                     <Button
-                        label={formData.id ? 'Save' : 'Submit'}
+                        label={formData.id ? 'Save' : 'Add'}
                         type="submit"
                         className="flex-1 p-button-lg p-button-raised"
                         disabled={

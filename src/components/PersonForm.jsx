@@ -64,7 +64,7 @@ export default function PersonForm({ personData, onSubmit, onCancel, ref }) {
 
                 <div className="flex gap-2">
                     <Button
-                        label={formData.id ? 'Save' : 'Submit'}
+                        label={formData.id ? 'Save' : 'Add'}
                         type="submit"
                         className="flex-1"
                         disabled={!(formData.full_name && formData.division)}
