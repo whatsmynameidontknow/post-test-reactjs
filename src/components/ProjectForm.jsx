@@ -70,6 +70,7 @@ export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
                             dropdownButton: { className: 'bg-primary' },
                             calendar: { className: 'border-round-xl' },
                         }}
+                        required
                     />
                     <label htmlFor="start_date" className="text-gray-700">
                         Start Date
@@ -91,6 +92,7 @@ export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
                             dropdownButton: { className: 'bg-primary' },
                             calendar: { className: 'border-round-xl' },
                         }}
+                        required
                     />
                     <label htmlFor="end_date" className="text-gray-700">
                         End Date
