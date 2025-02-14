@@ -101,11 +101,9 @@ export default function Divisions() {
             <div className="flex flex-column gap-4">
                 <Card className="shadow-2">
                     <div className="flex flex-column gap-4">
-                        <div className="text-center">
-                            <h1 className="text-4xl font-bold text-900 mb-2">
-                                Divisions Management
-                            </h1>
-                        </div>
+                        <h1 className="text-4xl font-bold text-900 mb-2 text-center">
+                            Divisions Management
+                        </h1>
 
                         <div className="flex flex-column gap-4">
                             <div className="surface-card p-4 border-round">
@@ -129,7 +127,9 @@ export default function Divisions() {
                 </Card>
 
                 <Card className="shadow-2">
-                    <h1 className="text-center">Statistics</h1>
+                    <h1 className="text-4xl font-bold text-900 mb-2 text-center">
+                        Statistics
+                    </h1>
                     <DivisionStats divisions={divisionsStatsData} />
                 </Card>
 

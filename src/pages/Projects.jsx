@@ -89,11 +89,9 @@ export default function Projects() {
             <div className="flex flex-column gap-4">
                 <Card className="shadow-2">
                     <div className="flex flex-column gap-4">
-                        <div className="text-center">
-                            <h1 className="text-4xl font-bold text-900 mb-2">
-                                Projects Management
-                            </h1>
-                        </div>
+                        <h1 className="text-4xl font-bold text-900 mb-2 text-center">
+                            Projects Management
+                        </h1>
 
                         <div className="flex flex-column gap-4">
                             <div className="surface-card p-4 border-round">
@@ -116,13 +114,6 @@ export default function Projects() {
                     </div>
                 </Card>
 
-                {/* <DeleteConfirmationDialog
-                    name={projectToDelete?.name}
-                    onCancel={() => setDeleteDialogVisible(false)}
-                    onConfirm={doDelete}
-                    visible={deleteDialogVisible}
-                /> */}
-
                 <ProjectInfoDialog
                     project={selectedProjectInfo}
                     visible={infoDialogVisible}
@@ -130,7 +121,9 @@ export default function Projects() {
                 />
 
                 <Card className="shadow-2">
-                    <h1 className="text-center">Statistics</h1>
+                    <h1 className="text-4xl font-bold text-900 mb-2 text-center">
+                        Statistics
+                    </h1>
                     <ProjectStats projects={projects} />
                 </Card>
             </div>

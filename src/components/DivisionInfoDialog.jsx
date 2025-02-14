@@ -18,7 +18,7 @@ export default function DivisionInfoDialog({ division, visible, onClose }) {
             icon: 'pi pi-building',
         },
         {
-            label: 'Total Member',
+            label: 'Total Members',
             value: currentDivisionMember?.length || 0,
             icon: 'pi pi-users',
         },

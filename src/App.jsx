@@ -34,7 +34,7 @@ function App() {
         },
         {
             label: 'Divisions',
-            icon: 'pi pi-lightbulb',
+            icon: 'pi pi-building',
             command: () => navigate('/divisions'),
             template: (item) => (
                 <span
