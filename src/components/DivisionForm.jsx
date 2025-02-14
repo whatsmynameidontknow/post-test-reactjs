@@ -51,6 +51,7 @@ export default function DivisionForm({
                         label={formData.id ? 'Save' : 'Submit'}
                         type="submit"
                         className="flex-1"
+                        disabled={!formData.name}
                     />
                     {formData.id && (
                         <Button

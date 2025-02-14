@@ -104,6 +104,14 @@ export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
                         label={formData.id ? 'Save' : 'Submit'}
                         type="submit"
                         className="flex-1 p-button-lg p-button-raised"
+                        disabled={
+                            !(
+                                formData.name &&
+                                formData.start_date &&
+                                formData.end_date &&
+                                formData.end_date >= formData.start_date
+                            )
+                        }
                     />
                     {formData.id && (
                         <Button
