@@ -7,6 +7,7 @@ import { Divider } from 'primereact/divider';
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
 import { useEffect, useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 import { EMPTY_PERSON } from '../pages/People';
 import useStore from '../stores/app.store';
 import { getProjectStatus } from '../utils/utils';
@@ -99,6 +100,14 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                                     selectedPerson.id
                                 );
                                 setSelectedPerson(EMPTY_PERSON);
+                                Swal.fire({
+                                    title: project?.name,
+                                    text: `${selectedPerson.full_name} Added to Project ${project?.name}`,
+                                    icon: 'success',
+                                    customClass: {
+                                        container: 'z-9999',
+                                    },
+                                });
                             }}
                             className="flex gap-3"
                         >
@@ -143,7 +152,32 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                     <PersonList
                         people={projectMembers}
                         onDeleteClick={(person) => {
-                            removePersonFromProject(project?.id, person.id);
+                            Swal.fire({
+                                title: project?.name,
+                                text: `Do You Want to Remove ${person?.full_name} from Project ${project?.name}?`,
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: 'No',
+                                showCancelButton: true,
+                                icon: 'question',
+                                customClass: {
+                                    container: 'z-9999',
+                                },
+                            }).then((res) => {
+                                if (res.isConfirmed) {
+                                    removePersonFromProject(
+                                        project?.id,
+                                        person.id
+                                    );
+                                    Swal.fire({
+                                        title: project?.name,
+                                        text: `${person?.full_name} Removed from Project ${project?.name}`,
+                                        icon: 'success',
+                                        customClass: {
+                                            container: 'z-9999',
+                                        },
+                                    });
+                                }
+                            });
                         }}
                     />
                 </Card>

@@ -74,6 +74,11 @@ export default function People() {
         projects.forEach((project) =>
             removePersonFromProject(project.id, personToDelete.id)
         );
+        Swal.fire({
+            title: 'Person',
+            text: `${personToDelete?.full_name} Deleted Successfully!`,
+            icon: 'success',
+        });
         setDialogVisible(false);
     };
 

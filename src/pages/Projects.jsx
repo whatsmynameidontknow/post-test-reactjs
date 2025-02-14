@@ -1,5 +1,6 @@
 import { Card } from 'primereact/card';
 import { useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
 import ProjectForm from '../components/ProjectForm';
 import ProjectInfoDialog from '../components/ProjectInfoDialog';
@@ -31,14 +32,24 @@ export default function Projects() {
 
     const onSubmit = (project) => {
         if (!endDateNotBeforeStartDate(project)) {
-            throw Error("end_date can't be before start_date");
+            Swal.fire({
+                title: 'Project',
+                text: "Project Start Date Can't be Before Start Date!",
+                icon: 'error',
+            });
+            return;
         }
         if (project.id) {
             editProject(project);
-            return;
+            setSelectedProject(EMPTY_PROJECT);
+        } else {
+            addProject(project);
         }
-        addProject(project);
-        setSelectedProject(EMPTY_PROJECT);
+        Swal.fire({
+            title: 'Project',
+            text: `Project ${project.id ? 'Updated' : 'Added'} Successfully!`,
+            icon: 'success',
+        });
     };
 
     const onCancel = () => {
@@ -78,6 +89,11 @@ export default function Projects() {
             removePersonFromProject(projectToDelete.id, person.id);
         });
         setDeleteDialogVisible(false);
+        Swal.fire({
+            title: 'Project',
+            text: `Project ${projectToDelete?.name} Deleted Successfully!`,
+            icon: 'success',
+        });
     };
 
     return (
