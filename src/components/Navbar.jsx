@@ -2,16 +2,14 @@ import { Menubar } from 'primereact/menubar';
 
 export default function Navbar({ items }) {
     return (
-        <div className="card">
+        <div className="card sticky top-0 z-5">
             <Menubar
                 model={items}
-                className="surface-0 shadow-4 border-solid"
                 pt={{
-                    root: { className: 'p-3' },
                     menu: {
-                        className: 'flex justify-content-center w-full gap-8',
+                        className:
+                            'lg:flex lg:flex-row lg:justify-content-center lg:w-full',
                     },
-                    button: { className: 'text-lg' },
                 }}
             />
         </div>
