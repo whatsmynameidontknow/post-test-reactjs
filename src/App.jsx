@@ -2,6 +2,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import './App.css';
 import Navbar from './components/Navbar';
 import About from './pages/About';
+import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import People from './pages/People';
 import Projects from './pages/Projects';
@@ -34,6 +35,7 @@ function App() {
                 <Navbar items={navbarItems} />
             )}
             <Routes>
+                <Route path="/" element={<Home />} />
                 <Route path="/people" element={<People />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/about" element={<About />} />
