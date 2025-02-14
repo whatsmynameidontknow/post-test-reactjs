@@ -91,7 +91,7 @@ export default function Projects() {
                     <div className="flex flex-column gap-4">
                         <div className="text-center">
                             <h1 className="text-4xl font-bold text-900 mb-2">
-                                Project Management
+                                Projects Management
                             </h1>
                         </div>
 
