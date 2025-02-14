@@ -15,12 +15,12 @@ export default function DivisionInfoDialog({ division, visible, onClose }) {
         {
             label: 'Division Name',
             value: division?.name,
-            icon: 'pi pi-user',
+            icon: 'pi pi-building',
         },
         {
             label: 'Total Member',
             value: currentDivisionMember?.length || 0,
-            icon: 'pi pi-building',
+            icon: 'pi pi-users',
         },
     ];
 
