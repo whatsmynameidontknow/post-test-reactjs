@@ -3,36 +3,30 @@ import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import useStore from '../stores/app.store';
-import ProjectList from './ProjectList';
-import ProjectStats from './ProjectStats';
+import PersonList from './PersonList';
 
-export default function PersonInfoDialog({ person, visible, onClose }) {
-    const { projects } = useStore();
-    const currentPersonProjects = projects.filter((project) =>
-        person?.project_ids?.includes(project.id)
+export default function DivisionInfoDialog({ division, visible, onClose }) {
+    const { people } = useStore();
+    const currentDivisionMember = people.filter(
+        (person) => person.division.id === division?.id
     );
 
-    const personDetails = [
+    const divisionDetails = [
         {
-            label: 'Full Name',
-            value: person?.full_name,
+            label: 'Division Name',
+            value: division?.name,
             icon: 'pi pi-user',
         },
         {
-            label: 'Division',
-            value: person?.division?.name,
+            label: 'Total Member',
+            value: currentDivisionMember?.length || 0,
             icon: 'pi pi-building',
-        },
-        {
-            label: 'Total Projects',
-            value: currentPersonProjects?.length || 0,
-            icon: 'pi pi-folder',
         },
     ];
 
     return (
         <Dialog
-            header={`${person?.full_name} Details`}
+            header={`${division?.name} Details`}
             visible={visible}
             onHide={onClose}
             className="w-full lg:w-8 md:w-6"
@@ -40,8 +34,8 @@ export default function PersonInfoDialog({ person, visible, onClose }) {
         >
             <div className="flex flex-column gap-4">
                 <Card className="shadow-1">
-                    <div className="grid">
-                        {personDetails.map((detail) => (
+                    <div className="lg:flex lg:justify-content-center">
+                        {divisionDetails.map((detail) => (
                             <div key={detail.label} className="col-12 md:col-4">
                                 <div className="flex flex-column align-items-center p-3 border-round surface-50">
                                     <i
@@ -62,29 +56,18 @@ export default function PersonInfoDialog({ person, visible, onClose }) {
                 <Divider align="center">
                     <div className="flex align-items-center gap-2">
                         <i className="pi pi-folder text-primary"></i>
-                        <span className="text-500 font-medium">Projects</span>
+                        <span className="text-500 font-medium">Member</span>
                         <Badge
-                            value={currentPersonProjects?.length || 0}
+                            value={currentDivisionMember?.length || 0}
                             severity="info"
                         />
                     </div>
                 </Divider>
 
                 <Card className="shadow-1">
-                    <ProjectList projects={currentPersonProjects} />
-                </Card>
-
-                <Divider align="center">
-                    <div className="flex align-items-center gap-2">
-                        <i className="pi pi-chart-bar text-primary"></i>
-                        <span className="text-500 font-medium">Statistics</span>
-                    </div>
-                </Divider>
-
-                <Card className="shadow-1">
-                    <ProjectStats
-                        projects={currentPersonProjects}
-                        chartTitle={`${person?.full_name} Projects by Year`}
+                    <PersonList
+                        people={currentDivisionMember}
+                        showDivision={false}
                     />
                 </Card>
             </div>

@@ -20,7 +20,6 @@ export default function ProjectList({
                 paginator
                 rows={5}
                 rowsPerPageOptions={[5, 10, 25]}
-                tableStyle={{ minWidth: '50rem' }}
                 emptyMessage={
                     <div className="flex justify-content-center">
                         <span>No projects found.</span>

@@ -26,13 +26,17 @@ const useStore = create(
         (set) => ({
             people: [],
             projects: [],
+            divisions: [],
             addPerson: (person) =>
-                set((state) => {
-                    person.id = `person-${Date.now()}`;
-                    return {
-                        people: [...state.people, person],
-                    };
-                }),
+                set((state) => ({
+                    people: [
+                        ...state.people,
+                        {
+                            ...person,
+                            id: `person-${Date.now()}`,
+                        },
+                    ],
+                })),
             editPerson: (person) =>
                 set((state) => {
                     const newPeople = state.people.map((p) => {
@@ -50,12 +54,15 @@ const useStore = create(
                     people: state.people.filter((p) => p.id !== person.id),
                 })),
             addProject: (project) =>
-                set((state) => {
-                    project.id = `project-${Date.now()}`;
-                    return {
-                        projects: [...state.projects, project],
-                    };
-                }),
+                set((state) => ({
+                    projects: [
+                        ...state.projects,
+                        {
+                            ...project,
+                            id: `project-${Date.now()}`,
+                        },
+                    ],
+                })),
             editProject: (project) =>
                 set((state) => {
                     const newProjects = state.projects.map((p) => {
@@ -127,6 +134,34 @@ const useStore = create(
                         people: people,
                     };
                 }),
+            addDivision: (division) =>
+                set((state) => ({
+                    divisions: [
+                        ...state.divisions,
+                        {
+                            ...division,
+                            id: `division-${Date.now()}`,
+                        },
+                    ],
+                })),
+            editDivision: (division) =>
+                set((state) => {
+                    const divisions = state.divisions.map((d) => {
+                        if (division.id === d.id) {
+                            return division;
+                        }
+                        return d;
+                    });
+                    return {
+                        divisions: divisions,
+                    };
+                }),
+            deleteDivision: (division) =>
+                set((state) => ({
+                    divisions: state.divisions.filter(
+                        (d) => d.id !== division.id
+                    ),
+                })),
         }),
         {
             name: 'post-test',

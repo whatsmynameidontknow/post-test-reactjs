@@ -1,26 +1,25 @@
 import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
-import { EMPTY_PERSON } from '../constants/constants';
-import useStore from '../stores/app.store';
+import { EMPTY_DIVISION } from '../constants/constants';
 
-export default function PersonForm({ personData, onSubmit, onCancel, ref }) {
-    const [formData, setFormData] = useState(personData);
-    const { divisions } = useStore();
-
+export default function DivisionForm({
+    divisionData,
+    onSubmit,
+    ref,
+    onCancel,
+}) {
+    const [formData, setFormData] = useState(divisionData);
     useEffect(() => {
-        setFormData(personData);
-    }, [personData]);
-
+        setFormData(divisionData);
+    }, [divisionData]);
     const onInputChange = (e) => {
         setFormData({
             ...formData,
             [e.target.id]: e.target.value,
         });
     };
-
     return (
         <div className="flex justify-content-center" ref={ref}>
             <form
@@ -28,38 +27,23 @@ export default function PersonForm({ personData, onSubmit, onCancel, ref }) {
                 onSubmit={(e) => {
                     e.preventDefault();
                     onSubmit(formData);
-                    setFormData(EMPTY_PERSON);
+                    setFormData(EMPTY_DIVISION);
                 }}
             >
                 <h2 className="text-center text-2xl font-bold m-0 mb-4 text-900">
-                    {personData.id ? 'Edit' : 'Add'} Person
+                    {divisionData.id ? 'Edit' : 'Add'} Division
                 </h2>
 
                 <FloatLabel>
                     <InputText
-                        id="full_name"
-                        value={formData.full_name}
-                        name="full_name"
+                        id="name"
+                        value={formData.name}
+                        name="name"
                         onChange={onInputChange}
                         className="w-full"
                         required
                     />
-                    <label htmlFor="full_name">Full Name</label>
-                </FloatLabel>
-
-                <FloatLabel>
-                    <Dropdown
-                        id="division"
-                        value={formData.division}
-                        name="division"
-                        onChange={onInputChange}
-                        options={divisions}
-                        optionLabel="name"
-                        className="w-full"
-                        placeholder="Select a Division"
-                        required
-                    />
-                    <label htmlFor="division">Select a Division</label>
+                    <label htmlFor="name">Division Name</label>
                 </FloatLabel>
 
                 <div className="flex gap-2">

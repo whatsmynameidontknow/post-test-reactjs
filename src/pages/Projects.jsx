@@ -5,13 +5,8 @@ import ProjectForm from '../components/ProjectForm';
 import ProjectInfoDialog from '../components/ProjectInfoDialog';
 import ProjectList from '../components/ProjectList';
 import ProjectStats from '../components/ProjectStats';
+import { EMPTY_PROJECT } from '../constants/constants';
 import useStore from '../stores/app.store';
-
-export const EMPTY_PROJECT = {
-    name: '',
-    start_date: null,
-    end_date: null,
-};
 
 export default function Projects() {
     const {

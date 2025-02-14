@@ -4,7 +4,7 @@ import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { EMPTY_PROJECT } from '../pages/Projects';
+import { EMPTY_PROJECT } from '../constants/constants';
 import { endDateNotBeforeStartDate } from '../utils/utils';
 
 export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {

@@ -5,12 +5,8 @@ import PersonForm from '../components/PersonForm';
 import PersonInfoDialog from '../components/PersonInfoDialog';
 import PersonList from '../components/PersonList';
 import PersonStats from '../components/PersonStats';
+import { EMPTY_PERSON } from '../constants/constants';
 import useStore from '../stores/app.store';
-
-export const EMPTY_PERSON = {
-    full_name: '',
-    division: undefined,
-};
 
 export default function People() {
     const {

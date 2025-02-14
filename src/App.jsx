@@ -2,6 +2,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import './App.css';
 import Navbar from './components/Navbar';
 import About from './pages/About';
+import Divisions from './pages/Divisions';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import People from './pages/People';
@@ -21,6 +22,24 @@ function App() {
                 <span
                     className={`p-menuitem-link ${
                         currentPath === '/projects'
+                            ? 'text-blue-500 font-bold'
+                            : 'text-gray-700'
+                    }`}
+                    onClick={item.command}
+                >
+                    <i className={`${item.icon} mr-2`}></i>
+                    <span>{item.label}</span>
+                </span>
+            ),
+        },
+        {
+            label: 'Divisions',
+            icon: 'pi pi-lightbulb',
+            command: () => navigate('/divisions'),
+            template: (item) => (
+                <span
+                    className={`p-menuitem-link ${
+                        currentPath === '/divisions'
                             ? 'text-blue-500 font-bold'
                             : 'text-gray-700'
                     }`}
@@ -69,7 +88,13 @@ function App() {
         },
     ];
 
-    const VALID_ROUTES = new Set(['/people', '/', '/projects', '/about']);
+    const VALID_ROUTES = new Set([
+        '/people',
+        '/',
+        '/projects',
+        '/about',
+        '/divisions',
+    ]);
 
     return (
         <>
@@ -77,6 +102,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/people" element={<People />} />
+                <Route path="/divisions" element={<Divisions />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/about" element={<About />} />
                 <Route path="*" element={<NotFound />} />

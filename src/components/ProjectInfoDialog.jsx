@@ -8,7 +8,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
-import { EMPTY_PERSON } from '../pages/People';
+import { EMPTY_PERSON } from '../constants/constants';
 import useStore from '../stores/app.store';
 import { getProjectStatus } from '../utils/utils';
 import PersonList from './PersonList';
