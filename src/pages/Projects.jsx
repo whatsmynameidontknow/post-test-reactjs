@@ -1,7 +1,6 @@
 import { Card } from 'primereact/card';
 import { useRef, useState } from 'react';
 import Swal from 'sweetalert2';
-import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
 import ProjectForm from '../components/ProjectForm';
 import ProjectInfoDialog from '../components/ProjectInfoDialog';
 import ProjectList from '../components/ProjectList';
@@ -26,8 +25,6 @@ export default function Projects() {
     } = useStore();
     const [selectedProject, setSelectedProject] = useState(EMPTY_PROJECT);
     const [selectedProjectInfo, setSelectedProjectInfo] = useState(null);
-    const [projectToDelete, setProjectToDelete] = useState(null);
-    const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [infoDialogVisible, setInfoDialogVisible] = useState(false);
 
     const onSubmit = (project) => {
@@ -71,29 +68,34 @@ export default function Projects() {
     };
 
     const onDeleteClick = (project) => {
-        setProjectToDelete(project);
-        setDeleteDialogVisible(true);
+        Swal.fire({
+            title: project?.name,
+            text: `Are You Sure You Want to Delete ${project?.name}?`,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            showCancelButton: true,
+            icon: 'question',
+        }).then((res) => {
+            if (res.isConfirmed) {
+                deleteProject(project);
+                if (project.id === selectedProject?.id) {
+                    setSelectedProject(EMPTY_PROJECT);
+                }
+                people.forEach((person) => {
+                    removePersonFromProject(project.id, person.id);
+                });
+                Swal.fire({
+                    title: 'Project',
+                    text: `Project ${project.name} Deleted Successfully!`,
+                    icon: 'success',
+                });
+            }
+        });
     };
 
     const onInfoClick = (project) => {
         setSelectedProjectInfo(project);
         setInfoDialogVisible(true);
-    };
-
-    const doDelete = () => {
-        deleteProject(projectToDelete);
-        if (projectToDelete.id === selectedProject.id) {
-            setSelectedProject(EMPTY_PROJECT);
-        }
-        people.forEach((person) => {
-            removePersonFromProject(projectToDelete.id, person.id);
-        });
-        setDeleteDialogVisible(false);
-        Swal.fire({
-            title: 'Project',
-            text: `Project ${projectToDelete?.name} Deleted Successfully!`,
-            icon: 'success',
-        });
     };
 
     return (
@@ -128,12 +130,12 @@ export default function Projects() {
                     </div>
                 </Card>
 
-                <DeleteConfirmationDialog
+                {/* <DeleteConfirmationDialog
                     name={projectToDelete?.name}
                     onCancel={() => setDeleteDialogVisible(false)}
                     onConfirm={doDelete}
                     visible={deleteDialogVisible}
-                />
+                /> */}
 
                 <ProjectInfoDialog
                     project={selectedProjectInfo}

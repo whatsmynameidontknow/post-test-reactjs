@@ -1,7 +1,6 @@
 import { Card } from 'primereact/card';
 import { useRef, useState } from 'react';
 import Swal from 'sweetalert2';
-import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
 import PersonForm from '../components/PersonForm';
 import PersonInfoDialog from '../components/PersonInfoDialog';
 import PersonList from '../components/PersonList';
@@ -23,8 +22,6 @@ export default function People() {
         projects,
     } = useStore();
     const [selectedPerson, setSelectedPerson] = useState(EMPTY_PERSON);
-    const [personToDelete, setPersonToDelete] = useState();
-    const [dialogVisible, setDialogVisible] = useState(false);
     const [infoDialogVisible, setInfoDialogVisible] = useState(false);
     const [selectedPersonInfo, setSelectedPersonInfo] = useState();
 
@@ -57,29 +54,34 @@ export default function People() {
     };
 
     const onDeleteClick = (person) => {
-        setPersonToDelete(person);
-        setDialogVisible(true);
+        Swal.fire({
+            title: person?.full_name,
+            text: `Are You Sure You Want to Delete ${person?.full_name}?`,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            showCancelButton: true,
+            icon: 'question',
+        }).then((res) => {
+            if (res.isConfirmed) {
+                deletePerson(person);
+                if (person.id === selectedPerson?.id) {
+                    setSelectedPerson(EMPTY_PERSON);
+                }
+                projects.forEach((project) =>
+                    removePersonFromProject(project.id, person.id)
+                );
+                Swal.fire({
+                    title: 'Person',
+                    text: `${person.full_name} Deleted Successfully!`,
+                    icon: 'success',
+                });
+            }
+        });
     };
 
     const onInfoClick = (person) => {
         setSelectedPersonInfo(person);
         setInfoDialogVisible(true);
-    };
-
-    const doDelete = () => {
-        deletePerson(personToDelete);
-        if (personToDelete.id === selectedPerson.id) {
-            setSelectedPerson(EMPTY_PERSON);
-        }
-        projects.forEach((project) =>
-            removePersonFromProject(project.id, personToDelete.id)
-        );
-        Swal.fire({
-            title: 'Person',
-            text: `${personToDelete?.full_name} Deleted Successfully!`,
-            icon: 'success',
-        });
-        setDialogVisible(false);
     };
 
     return (
@@ -113,13 +115,6 @@ export default function People() {
                         </div>
                     </div>
                 </Card>
-
-                <DeleteConfirmationDialog
-                    name={personToDelete?.full_name}
-                    onCancel={() => setDialogVisible(false)}
-                    onConfirm={doDelete}
-                    visible={dialogVisible}
-                />
 
                 <Card className="shadow-2">
                     <h1 className="text-center">Statistics</h1>

@@ -154,7 +154,7 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                         onDeleteClick={(person) => {
                             Swal.fire({
                                 title: project?.name,
-                                text: `Do You Want to Remove ${person?.full_name} from Project ${project?.name}?`,
+                                text: `Are You Sure You Want to Remove ${person?.full_name} from Project ${project?.name}?`,
                                 confirmButtonText: 'Yes',
                                 cancelButtonText: 'No',
                                 showCancelButton: true,
