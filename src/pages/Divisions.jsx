@@ -73,7 +73,7 @@ export default function Divisions() {
                 if (anyPersonInCurrentDivision) {
                     Swal.fire({
                         title: division.name,
-                        text: `There Are Still People in the ${division.name} Division!`,
+                        text: `Cannot delete ${division.name} division - it still has active members. Please reassign or remove all members first.`,
                         icon: 'error',
                     });
                     return;
