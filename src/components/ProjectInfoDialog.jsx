@@ -114,13 +114,30 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                             <Dropdown
                                 id="person"
                                 value={selectedPerson}
+                                itemTemplate={(person) => {
+                                    if (!person)
+                                        return (
+                                            <span>Please Select a Person</span>
+                                        );
+                                    return (
+                                        <span>{`${person.full_name} (${person.division.name})`}</span>
+                                    );
+                                }}
+                                valueTemplate={(person) => {
+                                    if (!person)
+                                        return (
+                                            <span>Please Select a Person</span>
+                                        );
+                                    return (
+                                        <span>{`${person.full_name} (${person.division.name})`}</span>
+                                    );
+                                }}
                                 options={people}
                                 optionDisabled={(person) =>
                                     project?.member_ids?.some(
                                         (id) => id === person.id
                                     )
                                 }
-                                optionLabel="full_name"
                                 className="flex-1"
                                 placeholder="Select a Person"
                                 onChange={(e) => setSelectedPerson(e.value)}
