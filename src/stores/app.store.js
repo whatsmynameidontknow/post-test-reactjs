@@ -166,6 +166,7 @@ const useStore = create(
         {
             name: 'post-test',
             storage: storage,
+            version: 69,
         }
     )
 );
