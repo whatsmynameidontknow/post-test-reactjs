@@ -47,7 +47,6 @@ export default function ProjectList({
                 ></Column>
                 <Column
                     header="Project Status"
-                    sortable
                     body={(project) => {
                         const projectStatus = getProjectStatus(project);
                         const statusText =
