@@ -9,6 +9,7 @@ import { Toast } from 'primereact/toast';
 import { useEffect, useRef, useState } from 'react';
 import { EMPTY_PERSON } from '../pages/People';
 import useStore from '../stores/app.store';
+import { getProjectStatus } from '../utils/utils';
 import PersonList from './PersonList';
 import PersonStats from './PersonStats';
 
@@ -24,6 +25,8 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
         project?.member_ids?.includes(person.id)
     );
 
+    const projectStatus = getProjectStatus(project);
+
     const projectDetails = [
         {
             label: 'Start Date',
@@ -34,6 +37,12 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
             label: 'End Date',
             value: dayjs(project?.end_date).format('DD MMMM YYYY'),
             icon: 'pi pi-calendar-times',
+            className:
+                projectStatus < 0
+                    ? 'text-red-500'
+                    : projectStatus === 0
+                    ? 'text-yellow-500'
+                    : '',
         },
         {
             label: 'Total Members',
@@ -62,7 +71,11 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                                     <span className="text-500 text-sm">
                                         {detail.label}
                                     </span>
-                                    <span className="text-900 text-xl font-medium">
+                                    <span
+                                        className={`text-900 text-xl font-medium ${
+                                            detail.className ?? ''
+                                        }`}
+                                    >
                                         {detail.value}
                                     </span>
                                 </div>
@@ -71,42 +84,47 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                     </div>
                 </Card>
 
-                <Card className="shadow-1">
-                    <div className="flex align-items-center justify-content-between mb-3">
-                        <h3 className="text-xl font-semibold m-0">
-                            Add Team Member
-                        </h3>
-                    </div>
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            addPersonToProject(project?.id, selectedPerson.id);
-                            setSelectedPerson(EMPTY_PERSON);
-                        }}
-                        className="flex gap-3"
-                    >
-                        <Dropdown
-                            id="person"
-                            value={selectedPerson}
-                            options={people}
-                            optionDisabled={(person) =>
-                                project?.member_ids?.some(
-                                    (id) => id === person.id
-                                )
-                            }
-                            optionLabel="full_name"
-                            className="flex-1"
-                            placeholder="Select a Person"
-                            onChange={(e) => setSelectedPerson(e.value)}
-                            required
-                        />
-                        <Button
-                            label="Add Member"
-                            icon="pi pi-user-plus"
-                            type="submit"
-                        />
-                    </form>
-                </Card>
+                {projectStatus >= 0 && (
+                    <Card className="shadow-1">
+                        <div className="flex align-items-center justify-content-between mb-3">
+                            <h3 className="text-xl font-semibold m-0">
+                                Add Team Member
+                            </h3>
+                        </div>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                addPersonToProject(
+                                    project?.id,
+                                    selectedPerson.id
+                                );
+                                setSelectedPerson(EMPTY_PERSON);
+                            }}
+                            className="flex gap-3"
+                        >
+                            <Dropdown
+                                id="person"
+                                value={selectedPerson}
+                                options={people}
+                                optionDisabled={(person) =>
+                                    project?.member_ids?.some(
+                                        (id) => id === person.id
+                                    )
+                                }
+                                optionLabel="full_name"
+                                className="flex-1"
+                                placeholder="Select a Person"
+                                onChange={(e) => setSelectedPerson(e.value)}
+                                required
+                            />
+                            <Button
+                                label="Add Member"
+                                icon="pi pi-user-plus"
+                                type="submit"
+                            />
+                        </form>
+                    </Card>
+                )}
 
                 <Divider align="center">
                     <div className="flex align-items-center gap-2">

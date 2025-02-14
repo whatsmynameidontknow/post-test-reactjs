@@ -32,34 +32,36 @@ export default function PersonList({
                     header="Division"
                     sortable
                 ></Column>
-                <Column
-                    header="Action"
-                    body={(person) => (
-                        <div className="flex gap-2 justify-content-center">
-                            {onEditClick && (
-                                <Button
-                                    icon="pi pi-pencil"
-                                    severity="success"
-                                    onClick={() => onEditClick(person)}
-                                />
-                            )}
-                            {onInfoClick && (
-                                <Button
-                                    icon="pi pi-info-circle"
-                                    severity="primary"
-                                    onClick={() => onInfoClick(person)}
-                                />
-                            )}
-                            {onDeleteClick && (
-                                <Button
-                                    icon="pi pi-trash"
-                                    severity="danger"
-                                    onClick={() => onDeleteClick(person)}
-                                />
-                            )}
-                        </div>
-                    )}
-                ></Column>
+                {(onInfoClick || onEditClick || onDeleteClick) && (
+                    <Column
+                        header="Action"
+                        body={(person) => (
+                            <div className="flex gap-2 justify-content-center">
+                                {onInfoClick && (
+                                    <Button
+                                        icon="pi pi-info-circle"
+                                        severity="primary"
+                                        onClick={() => onInfoClick(person)}
+                                    />
+                                )}
+                                {onEditClick && (
+                                    <Button
+                                        icon="pi pi-pencil"
+                                        severity="success"
+                                        onClick={() => onEditClick(person)}
+                                    />
+                                )}
+                                {onDeleteClick && (
+                                    <Button
+                                        icon="pi pi-trash"
+                                        severity="danger"
+                                        onClick={() => onDeleteClick(person)}
+                                    />
+                                )}
+                            </div>
+                        )}
+                    ></Column>
+                )}
             </DataTable>
         </div>
     );

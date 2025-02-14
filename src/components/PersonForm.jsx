@@ -30,7 +30,7 @@ export default function PersonForm({ personData, onSubmit, onCancel, ref }) {
                     setFormData(EMPTY_PERSON);
                 }}
             >
-                <h2 className="text-center text-2xl font-semibold m-0 mb-4">
+                <h2 className="text-center text-2xl font-bold m-0 mb-4 text-900">
                     {personData.id ? 'Edit' : 'Add'} Person
                 </h2>
 

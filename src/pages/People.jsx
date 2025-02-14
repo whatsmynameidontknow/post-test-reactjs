@@ -1,5 +1,6 @@
 import { Card } from 'primereact/card';
 import { useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
 import PersonForm from '../components/PersonForm';
 import PersonInfoDialog from '../components/PersonInfoDialog';
@@ -28,12 +29,17 @@ export default function People() {
     const [selectedPersonInfo, setSelectedPersonInfo] = useState();
 
     const onSubmit = (person) => {
-        console.log('SUBMIT');
         if (person.id) {
             editPerson(person);
-            return;
+            setSelectedPerson(EMPTY_PERSON);
+        } else {
+            addPerson(person);
         }
-        addPerson(person);
+        Swal.fire({
+            title: 'Person',
+            text: `Person ${person.id ? 'Updated' : 'Added'} Successfully!`,
+            icon: 'success',
+        });
     };
 
     const onCancel = () => {
@@ -78,7 +84,7 @@ export default function People() {
                     <div className="flex flex-column gap-4">
                         <div className="text-center">
                             <h1 className="text-4xl font-bold text-900 mb-2">
-                                Person Management
+                                People Management
                             </h1>
                         </div>
 

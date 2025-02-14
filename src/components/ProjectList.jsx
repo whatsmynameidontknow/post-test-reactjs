@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
+import { Tag } from 'primereact/tag';
+import { getProjectStatus } from '../utils/utils';
 
 export default function ProjectList({
     projects,
@@ -44,20 +46,53 @@ export default function ProjectList({
                         dayjs(project.end_date).format('DD MMMM YYYY')
                     }
                 ></Column>
+                <Column
+                    header="Project Status"
+                    sortable
+                    body={(project) => {
+                        const projectStatus = getProjectStatus(project);
+                        const statusText =
+                            projectStatus < 0
+                                ? 'Lewat'
+                                : projectStatus === 0
+                                ? 'Hari Ini'
+                                : 'Aman';
+
+                        const getSeverity = (statusText) => {
+                            switch (statusText) {
+                                case 'Lewat':
+                                    return 'danger';
+                                case 'Hari Ini':
+                                    return 'warning';
+                                case 'Aman':
+                                    return 'success';
+                                default:
+                                    return null;
+                            }
+                        };
+
+                        return (
+                            <Tag
+                                value={statusText}
+                                severity={getSeverity(statusText)}
+                            />
+                        );
+                    }}
+                ></Column>
                 {(onEditClick || onInfoClick || onDeleteClick) && (
                     <Column
                         header="Action"
                         body={(project) => (
                             <div className="flex gap-2 justify-content-center">
                                 <Button
-                                    icon="pi pi-pencil"
-                                    severity="success"
-                                    onClick={() => onEditClick(project)}
-                                />
-                                <Button
                                     icon="pi pi-info-circle"
                                     severity="primary"
                                     onClick={() => onInfoClick(project)}
+                                />
+                                <Button
+                                    icon="pi pi-pencil"
+                                    severity="success"
+                                    onClick={() => onEditClick(project)}
                                 />
                                 <Button
                                     icon="pi pi-trash"
