@@ -1,6 +1,7 @@
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import './App.css';
 import Navbar from './components/Navbar';
+import About from './pages/About';
 import NotFound from './pages/NotFound';
 import People from './pages/People';
 import Projects from './pages/Projects';
@@ -35,6 +36,7 @@ function App() {
             <Routes>
                 <Route path="/people" element={<People />} />
                 <Route path="/projects" element={<Projects />} />
+                <Route path="/about" element={<About />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>
