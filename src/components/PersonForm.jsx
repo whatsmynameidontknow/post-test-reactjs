@@ -27,7 +27,10 @@ export default function PersonForm({ personData, onSubmit, onCancel, ref }) {
                 className="flex flex-column gap-4 p-4 surface-card border-round shadow-2 w-full md:w-30rem"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    onSubmit(formData);
+                    onSubmit({
+                        ...formData,
+                        full_name: formData.full_name.trim(),
+                    });
                     setFormData(EMPTY_PERSON);
                 }}
             >
@@ -67,7 +70,9 @@ export default function PersonForm({ personData, onSubmit, onCancel, ref }) {
                         label={formData.id ? 'Save' : 'Add'}
                         type="submit"
                         className="flex-1"
-                        disabled={!(formData.full_name && formData.division)}
+                        disabled={
+                            !(formData.full_name?.trim() && formData.division)
+                        }
                     />
                     {formData.id && (
                         <Button

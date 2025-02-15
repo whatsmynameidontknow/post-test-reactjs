@@ -44,7 +44,9 @@ export default function DivisionForm({
                         });
                         return;
                     }
-                    onSubmit(formData);
+                    onSubmit({
+                        name: formData.name.trim(),
+                    });
                     setFormData(EMPTY_DIVISION);
                 }}
             >
@@ -69,7 +71,7 @@ export default function DivisionForm({
                         label={formData.id ? 'Save' : 'Add'}
                         type="submit"
                         className="flex-1"
-                        disabled={!formData.name}
+                        disabled={!formData.name?.trim()}
                     />
                     {formData.id && (
                         <Button

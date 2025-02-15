@@ -35,7 +35,10 @@ export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
                         });
                         return;
                     }
-                    onSubmit(formData);
+                    onSubmit({
+                        ...formData,
+                        name: formData.name.trim(),
+                    });
                     setFormData(EMPTY_PROJECT);
                 }}
             >
@@ -106,7 +109,7 @@ export default function ProjectForm({ projectData, onSubmit, onCancel, ref }) {
                         className="flex-1 p-button-lg p-button-raised"
                         disabled={
                             !(
-                                formData.name &&
+                                formData.name?.trim() &&
                                 formData.start_date &&
                                 formData.end_date &&
                                 formData.end_date >= formData.start_date
