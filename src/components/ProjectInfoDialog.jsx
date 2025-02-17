@@ -10,14 +10,14 @@ import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import { EMPTY_PERSON } from '../constants/constants';
 import useStore from '../stores/app.store';
-import { getProjectStatus } from '../utils/utils';
+import { PROJECT_STATUS } from '../utils/utils';
 import PersonList from './PersonList';
 import PersonStats from './PersonStats';
 
 export default function ProjectInfoDialog({ project, visible, onCancel }) {
     const { people, addPersonToProject, removePersonFromProject, divisions } =
         useStore();
-    const [selectedPerson, setSelectedPerson] = useState();
+    const [selectedPerson, setSelectedPerson] = useState(EMPTY_PERSON);
     const toastRef = useRef(null);
     useEffect(() => {
         setSelectedPerson(EMPTY_PERSON);
@@ -34,8 +34,6 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
         project?.member_ids?.includes(person.id)
     );
 
-    const projectStatus = getProjectStatus(project);
-
     const projectDetails = [
         {
             label: 'Start Date',
@@ -47,9 +45,9 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
             value: dayjs(project?.end_date).format('DD MMMM YYYY'),
             icon: 'pi pi-calendar-times',
             className:
-                projectStatus < 0
+                project?.status === PROJECT_STATUS.LEWAT
                     ? 'text-red-500'
-                    : projectStatus === 0
+                    : project?.status === PROJECT_STATUS.HARI_INI
                     ? 'text-yellow-500'
                     : '',
         },
@@ -93,7 +91,7 @@ export default function ProjectInfoDialog({ project, visible, onCancel }) {
                     </div>
                 </Card>
 
-                {projectStatus >= 0 && (
+                {project?.status !== PROJECT_STATUS.LEWAT && (
                     <Card className="shadow-1">
                         <div className="flex align-items-center justify-content-between mb-3">
                             <h3 className="text-xl font-semibold m-0">

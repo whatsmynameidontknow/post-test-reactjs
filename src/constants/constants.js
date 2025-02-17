@@ -11,4 +11,5 @@ export const EMPTY_PROJECT = {
     name: '',
     start_date: null,
     end_date: null,
+    status: '',
 };

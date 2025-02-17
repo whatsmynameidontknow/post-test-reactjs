@@ -23,6 +23,7 @@ export default function Projects() {
     const [infoDialogVisible, setInfoDialogVisible] = useState(false);
 
     const onSubmit = (project) => {
+        project.status = getProjectStatus(project);
         if (project.id) {
             editProject(project);
             setSelectedProject(EMPTY_PROJECT);
@@ -85,11 +86,6 @@ export default function Projects() {
         setInfoDialogVisible(true);
     };
 
-    const projectsWithStatus = projects.map((project) => ({
-        ...project,
-        status: getProjectStatus(project),
-    }));
-
     return (
         <div className="surface-ground p-4 md:p-6">
             <div className="flex flex-column gap-4">
@@ -110,7 +106,11 @@ export default function Projects() {
                             </div>
                             <div className="surface-card p-4 border-round">
                                 <ProjectList
-                                    projects={projectsWithStatus}
+                                    projects={projects.map((project) => {
+                                        project.status =
+                                            getProjectStatus(project);
+                                        return project;
+                                    })}
                                     onEditClick={onEditClick}
                                     onDeleteClick={onDeleteClick}
                                     onInfoClick={onInfoClick}
