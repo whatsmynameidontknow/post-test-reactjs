@@ -5,5 +5,10 @@ export const endDateNotBeforeStartDate = (p) => {
 export const getProjectStatus = (project) => {
     const todayTime = new Date().setHours(0, 0, 0, 0);
     const projectEndDateTime = project?.end_date?.getTime();
-    return projectEndDateTime - todayTime;
+    const projectStatus = projectEndDateTime - todayTime;
+    return projectStatus < 0
+        ? 'lewat'
+        : projectStatus === 0
+        ? 'hari ini'
+        : 'aman';
 };

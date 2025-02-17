@@ -7,6 +7,7 @@ import ProjectList from '../components/ProjectList';
 import ProjectStats from '../components/ProjectStats';
 import { EMPTY_PROJECT } from '../constants/constants';
 import useStore from '../stores/app.store';
+import { getProjectStatus } from '../utils/utils';
 
 export default function Projects() {
     const {
@@ -84,6 +85,11 @@ export default function Projects() {
         setInfoDialogVisible(true);
     };
 
+    const projectsWithStatus = projects.map((project) => ({
+        ...project,
+        status: getProjectStatus(project),
+    }));
+
     return (
         <div className="surface-ground p-4 md:p-6">
             <div className="flex flex-column gap-4">
@@ -104,7 +110,7 @@ export default function Projects() {
                             </div>
                             <div className="surface-card p-4 border-round">
                                 <ProjectList
-                                    projects={projects}
+                                    projects={projectsWithStatus}
                                     onEditClick={onEditClick}
                                     onDeleteClick={onDeleteClick}
                                     onInfoClick={onInfoClick}
