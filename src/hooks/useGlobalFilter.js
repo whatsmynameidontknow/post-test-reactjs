@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 export const useGlobalFilter = (initialFilters = {}) => {
-    console.log(initialFilters);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState(initialFilters);
     const onGlobalFilterChange = (e) => {

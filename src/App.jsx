@@ -1,5 +1,6 @@
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import './App.css';
+import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import About from './pages/About';
 import Divisions from './pages/Divisions';
@@ -107,6 +108,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
+            <Footer />
         </>
     );
 }

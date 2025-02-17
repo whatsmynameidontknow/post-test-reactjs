@@ -13,3 +13,6 @@ export const EMPTY_PROJECT = {
     end_date: null,
     status: '',
 };
+
+export const GITHUB_REPO_URL =
+    'https://github.com/whatsmynameidontknow/post-test-reactjs';
