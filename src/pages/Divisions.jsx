@@ -35,7 +35,6 @@ export default function Divisions() {
         } else {
             addDivision(division);
         }
-        console.log(division);
         Swal.fire({
             title: division.name,
             text: `Division ${division.id ? 'Updated' : 'Added'} Successfully!`,

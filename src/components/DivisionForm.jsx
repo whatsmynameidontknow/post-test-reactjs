@@ -45,6 +45,7 @@ export default function DivisionForm({
                         return;
                     }
                     onSubmit({
+                        ...formData,
                         name: formData.name.trim(),
                     });
                     setFormData(EMPTY_DIVISION);
