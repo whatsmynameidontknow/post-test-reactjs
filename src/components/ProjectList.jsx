@@ -96,7 +96,7 @@ export default function ProjectList({
                     filterField="start_date"
                     showFilterMenu={false}
                     filterElement={(o) => (
-                        <div>
+                        <div className="w-10rem md:min-w-full">
                             <Calendar
                                 placeholder="Start date after"
                                 value={o.value}
@@ -118,7 +118,7 @@ export default function ProjectList({
                     filterField="end_date"
                     showFilterMenu={false}
                     filterElement={(o) => (
-                        <div>
+                        <div className="w-10rem md:min-w-full">
                             <Calendar
                                 placeholder="End date before"
                                 value={o.value}
