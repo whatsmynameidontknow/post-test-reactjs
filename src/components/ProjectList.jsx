@@ -86,6 +86,7 @@ export default function ProjectList({
             >
                 <Column field="name" header="Name" sortable></Column>
                 <Column
+                    className="text-center"
                     field="start_date"
                     header="Start Date"
                     sortable
@@ -108,6 +109,7 @@ export default function ProjectList({
                     showClearButton={false}
                 ></Column>
                 <Column
+                    className="text-center"
                     field="end_date"
                     header="End Date"
                     sortable
@@ -130,6 +132,7 @@ export default function ProjectList({
                     showClearButton={false}
                 ></Column>
                 <Column
+                    className="text-center"
                     header="Project Status"
                     body={(project) => statusTemplate(project.status)}
                     filter
